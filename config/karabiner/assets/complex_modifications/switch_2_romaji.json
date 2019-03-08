@@ -10,7 +10,7 @@
         "to": [ { "key_code": "japanese_eisuu" }, { "key_code": "escape" } ],
         "conditions": [ { "type": "frontmost_application_if",
         "bundle_identifiers": [
-          "^com\\.googlecode\\.iterm2$"
+            "Terminal"
        ]
       }
      ]
