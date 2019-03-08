@@ -1,0 +1,21 @@
+{
+  "title": "Switch IME to Romaji when press Esc",
+  "rules": [
+        {
+  "description": "Switch IME to Romaji when press Esc",
+  "manipulators": [
+       {
+        "type": "basic",
+        "from": { "key_code": "escape", "modifiers": { "optional": [ "any" ] } },
+        "to": [ { "key_code": "japanese_eisuu" }, { "key_code": "escape" } ],
+        "conditions": [ { "type": "frontmost_application_if",
+        "bundle_identifiers": [
+          "^com\\.googlecode\\.iterm2$"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
