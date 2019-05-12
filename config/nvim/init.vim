@@ -32,7 +32,7 @@ autocmd TermOpen * setlocal norelativenumber
 autocmd TermOpen * setlocal nonumber
 
 " Python3 Path
-let g:python3_host_prog = expand('$HOME/.venv/env4nvim/bin/python3')
+let g:python3_host_prog = expand('$HOME/.venv/nvim/bin/python3')
 
 
 " ----- dein.vim -----
