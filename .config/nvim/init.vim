@@ -34,8 +34,9 @@ autocmd TermOpen * setlocal norelativenumber
 autocmd TermOpen * setlocal nonumber
 
 " Python3 Path
-let g:python3_host_prog = expand('$HOME/.venv/nvim/bin/python3')
-let g:python3_current_venv_path = substitute(system('which python3'), '\n', '', 'g')
+let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
+let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
+let g:python3_current_env_path = substitute(system('pyenv which python3'), '\n', '', 'g')
 
 
 " ----- dein.vim -----
@@ -91,8 +92,10 @@ map <silent><C-t> :NERDTreeToggle<CR>
 
 " ----- deoplete -----
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#python_path = g:python3_current_venv_path
+let g:deoplete#sources#jedi#python_path = g:python3_current_env_path
 
+" ----- indentLine -----
+let g:indentLine_setConceal = 0
 
 " ----- lightline -----
 " Config for status line 
