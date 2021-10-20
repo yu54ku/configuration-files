@@ -1,11 +1,3 @@
-# Created by newuser for 5.0.5
-
-### alias関連 ###
-##  VIM
-# alias vim="mvim -v"
-## Python
-alias python="python3"
-
 ### Path関連 ###
 export PATH=/usr/local/bin:/usr/local/sbin:/sbin:/usr/sbin:${PATH}
 # TeX
@@ -22,10 +14,8 @@ export LANG=en_US.UTF-8
 bindkey -e
 # Homebrew ビール絵文字非表示
 export HOMEBREW_NO_EMOJI=1
-# エディタ
-export EDITOR=vim
-# プロンプトのフォーマット
-PROMPT="%n@%m %1~$ "
+# プロンプトのフォーマット(Macでは無効推奨)
+# PROMPT="%n@%m %1~ %% "
 # 履歴ファイルの保存先
 export HISTFILE=${HOME}/.zsh_history
 # メモリに保存される履歴の件数
