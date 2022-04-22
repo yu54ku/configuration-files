@@ -33,10 +33,9 @@ tnoremap <silent> <ESC> <C-\><C-n>
 autocmd TermOpen * setlocal norelativenumber
 autocmd TermOpen * setlocal nonumber
 
-" Python3 Path
-let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
-let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
-let g:python3_current_env_path = substitute(system('pyenv which python3'), '\n', '', 'g')
+" Python Path
+let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim/bin/python'
+let g:python3_current_env_path = substitute(system('pyenv which python'), '\n', '', 'g')
 
 
 " ----- dein.vim -----
@@ -63,6 +62,8 @@ if dein#check_install()
   call dein#install()
 endif
 filetype plugin indent on
+let g:dein#auto_recache = 1
+
 
 " ----- Syntax Highlight -----
 " Python
@@ -90,111 +91,23 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " NERDTreeToggle Ctrl-T
 map <silent><C-t> :NERDTreeToggle<CR>
 
-" ----- deoplete -----
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#python_path = g:python3_current_env_path
-
 " ----- indentLine -----
-let g:indentLine_setConceal = 0
+" let g:indentLine_setConceal = 0
 
-" ----- lightline -----
-" Config for status line 
-let g:lightline = {
-\'colorscheme': 'jellybeans',
-\'active': {
-\  'left': [ [ 'mymode', 'paste' ], [ 'myreadonly', 'absolutepath', 'mymodified' ] ],
-\  'right': [ [ 'mylineinfo' ], [ 'mypercent' ], [ 'ale', 'myfileformat', 'myfileencoding', 'myfiletype' ] ]
-\},
-\'inactive': {
-\  'left': [['absolutepath']],
-\  'right': [[]]
-\},
-\'component_expand':{
-\  'mymode': 'MyMode',
-\  'mylineinfo': 'MyLineinfo',
-\  'mypercent': 'MyPercent',
-\  'myfiletype': 'MyFiletype',
-\  'myfileformat': 'MyFileformat',
-\  'myfileencoding': 'MyFileencoding',
-\},
-\  'component_function': {
-\  'mymodified': 'MyModified',
-\  'myreadonly': 'LightlineReadonly',
-\  'ale': 'LLAle',
-\}
-\}
+" ----- airline -----
+let g:airline_theme = 'jellybeans'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_section_z = airline#section#create(['%4.4l:%4.4c'])
 
-" functions for lightline
-function! LLAle()
-  let l:count = ale#statusline#Count(bufnr(''))
-  let l:errors = l:count.error + l:count.style_error
-  let l:warnings = l:count.warning + l:count.style_warning
-  return l:count.total == 0 ? '' : 'E:' . l:errors . ' W:' . l:warnings
-endfunction
-
-function! LightlineVisible()
-  let fname = expand('%:t')
-  return !(fname =~ 'NERD_tree')
-endfunction
-
-function! MyMode()
-    return LightlineVisible() ? '%{lightline#mode()}' : ''
-endfunction
-
-function! MyReadonly()
-    return LightlineVisible() && &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
-function! MyModified()
-    return LightlineVisible() && &modifiable && &modified ? '+' : ''
-endfunction
-
-function! MyAbsolutepath()
-    return LightlineVisible() ? '%F' : ''
-endfunction
-
-function! MyFileformat()
-    return LightlineVisible() ? '%{&fileformat}' : ''
-endfunction
-
-function! MyFiletype()
-    return LightlineVisible() ? '%{strlen(&filetype)?&filetype:"no ft"}' : ''
-endfunction
-
-function! MyFileencoding()
-    return LightlineVisible() ? '%{strlen(&fenc)?&fenc:&enc}' : ''
-endfunction
-
-function! MyPercent()
-    return LightlineVisible() ? '%3p%%' : ''
-endfunction
-
-function! MyLineinfo()
-    return LightlineVisible() ? '%3l:%-2v' : ''
-endfunction
-
-" ----- ale -----
-let g:ale_lint_on_save = 1
-" let g:ale_lint_on_text_changed = 0
-let g:ale_python_flake8_executable = g:python3_host_prog
-let g:ale_python_flake8_options = '-m flake8'
-
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " ----- Colorscheme -----
-" ColorScheme Rewrite
+"  ColorScheme Rewrite
 let g:jellybeans_overrides = {
 \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
 \}
 colorscheme jellybeans
 
 highlight SignColumn ctermbg=none
-highlight ALEErrorSign ctermfg=88
-highlight ALEWarningSign ctermfg=20
 highlight VertSplit ctermfg=236 ctermbg=236
 highlight StatusLine ctermfg=236 ctermbg=236
 highlight StatusLineNC ctermfg=236 ctermbg=236
-highlight clear ALEError
-highlight clear ALEWarning
