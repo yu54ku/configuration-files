@@ -99,6 +99,20 @@ let g:airline_theme = 'jellybeans'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_z = airline#section#create(['%4.4l:%4.4c'])
 
+" ----- ddc.vim -----
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'around'])
+call ddc#custom#patch_global('sourceOptions', {
+    \ '_': {
+    \   'matchers': ['matcher_head'],
+    \   'sorters': ['sorter_rank']},
+    \ 'around': {
+    \   'mark': 'around' },
+    \ 'nvim-lsp': {
+    \   'mark': 'lsp',
+    \   'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
+    \ })
+call ddc#enable()
+
 
 " ----- Colorscheme -----
 "  ColorScheme Rewrite
