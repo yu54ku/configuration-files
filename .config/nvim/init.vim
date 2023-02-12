@@ -20,6 +20,8 @@ set clipboard=unnamed
 set splitbelow
 set noshowmode
 set laststatus=2
+set cursorline
+set mouse=a
 
 " Config for rendering
 set lazyredraw
@@ -32,6 +34,9 @@ tnoremap <silent> <ESC> <C-\><C-n>
 " If neovim-terminal is active, this config hide line number.
 autocmd TermOpen * setlocal norelativenumber
 autocmd TermOpen * setlocal nonumber
+autocmd TermOpen * setlocal nocursorline
+command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
+autocmd TermOpen * startinsert
 
 " Python Path
 let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim/bin/python'
@@ -100,7 +105,8 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_z = airline#section#create(['%4.4l:%4.4c'])
 
 " ----- ddc.vim -----
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'around'])
+call ddc#custom#patch_global('ui', 'native')
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'file'])
 call ddc#custom#patch_global('sourceOptions', {
     \ '_': {
     \   'matchers': ['matcher_head'],
@@ -110,9 +116,23 @@ call ddc#custom#patch_global('sourceOptions', {
     \ 'nvim-lsp': {
     \   'mark': 'lsp',
     \   'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
+    \ 'file': {
+    \    'mark': 'file'},
     \ })
 call ddc#enable()
 
+" lsp_installer
+lua << EOF
+    require("mason").setup {}
+    local nvim_lsp = require('lspconfig')
+    local mason_lspconfig = require('mason-lspconfig')
+    mason_lspconfig.setup {}
+    mason_lspconfig.setup_handlers({ function(server_name)
+      local opts = {}
+      nvim_lsp[server_name].setup(opts)
+    end })
+    require('gitsigns').setup()
+EOF
 
 " ----- Colorscheme -----
 "  ColorScheme Rewrite

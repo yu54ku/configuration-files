@@ -17,12 +17,16 @@ repo = 'vim-airline/vim-airline'
 repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
-repo = 'tpope/fugitive.vim'
+repo = 'tpope/vim-fugitive'
 
 [[plugins]]
 repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 depends = ['denops.vim']
+
+[[plugins]]
+repo = 'Shougo/ddc-ui-native'
+on_source = 'ddc.vim'
 
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'
@@ -46,16 +50,18 @@ on_source = 'ddc.vim'
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
 on_event = 'BufEnter'
-hook_source= '''
-lua << EOF
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-  local opts = {}
-  server:setup(opts)
-end)
-EOF
-'''
 
 [[plugins]]
-repo = 'williamboman/nvim-lsp-installer'
+repo = 'williamboman/mason.nvim'
 on_source = 'nvim-lspconfig'
+
+[[plugins]]
+repo = 'williamboman/mason-lspconfig.nvim'
+on_source = 'mason.nvim'
+
+[[plugins]]
+repo = 'LumaKernel/ddc-file'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'lewis6991/gitsigns.nvim'
